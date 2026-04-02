@@ -1,0 +1,26 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+CREATE TABLE IF NOT EXISTS users (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  nickname VARCHAR(30) NOT NULL,
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS scores (
+  id SERIAL PRIMARY KEY,
+  user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+  game VARCHAR(20) NOT NULL,
+  score INTEGER NOT NULL,
+  played_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_scores_leaderboard ON scores(game, score DESC);
+
+CREATE TABLE IF NOT EXISTS lives (
+  id SERIAL PRIMARY KEY,
+  user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+  game VARCHAR(20) NOT NULL,
+  remaining INTEGER DEFAULT 3,
+  last_reset TIMESTAMP DEFAULT NOW(),
+  UNIQUE(user_id, game)
+);
