@@ -4,7 +4,6 @@ dist/
 .env.local
 .DS_Store
 *.log
-bun.lock
 
 # Ignore all .md files except README.md
 *.md
