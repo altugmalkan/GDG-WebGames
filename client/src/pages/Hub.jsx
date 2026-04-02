@@ -11,7 +11,6 @@ const GAMES = [
     apiName: 'card_match',
     title: 'Kart Eşleştirme',
     description: '4×4 gridde 8 çift teknolojiyi eşleştir',
-    icon: '🃏',
     color: 'gdg-blue',
   },
   {
@@ -19,7 +18,6 @@ const GAMES = [
     apiName: 'code_breaker',
     title: 'Kod Kırıcı',
     description: '5 harfli teknoloji terimini bul',
-    icon: '🔤',
     color: 'gdg-green',
   },
   {
@@ -27,7 +25,6 @@ const GAMES = [
     apiName: 'bug_hunt',
     title: 'Bug Avı',
     description: 'Böcekleri yakala, teknolojilere dokunma',
-    icon: '🐛',
     color: 'gdg-red',
   },
   {
@@ -35,7 +32,6 @@ const GAMES = [
     apiName: 'sort_race',
     title: 'Sıralama Yarışı',
     description: 'Teknolojileri kronolojik sırala',
-    icon: '📊',
     color: 'gdg-yellow',
   },
   {
@@ -43,7 +39,6 @@ const GAMES = [
     apiName: 'quiz',
     title: 'GDG Quiz',
     description: 'Google ve teknoloji dünyası quizi',
-    icon: '❓',
     color: 'gdg-blue',
   },
 ]
@@ -63,32 +58,28 @@ export default function Hub() {
     }
   }, [user])
 
+  const initials = user?.nickname?.slice(0, 2).toUpperCase() ?? '??'
+
   return (
     <div className="py-6">
-      <div className="text-center mb-6">
-        <p className="text-slate-400 text-sm">Hoş geldin</p>
-        <h1 className="text-2xl font-bold text-white">{user?.nickname}</h1>
+      {/* Greeting */}
+      <div className="flex items-center gap-4 mb-6">
+        <div className="w-12 h-12 rounded-full bg-gdg-blue/20 ring-2 ring-gdg-blue/40
+                        flex items-center justify-center shrink-0">
+          <span className="text-sm font-bold text-gdg-blue">{initials}</span>
+        </div>
+        <div className="min-w-0">
+          <p className="text-xs text-slate-500 font-medium uppercase tracking-wider">Hoş geldin</p>
+          <h1 className="text-2xl font-bold text-white truncate">{user?.nickname}</h1>
+        </div>
       </div>
-
-      {/* DEV: Reset lives button */}
-      <button
-        onClick={async () => {
-          await api.resetLives(user.id)
-          const updated = await api.getLives(user.id)
-          setLives(updated)
-        }}
-        className="mb-4 w-full py-2 rounded-lg bg-dark-surface text-slate-400 text-sm
-                   hover:text-white transition-colors"
-      >
-        🔄 Hakları Sıfırla (DEV)
-      </button>
 
       {loading ? (
         <div className="flex justify-center py-12">
           <div className="animate-spin w-8 h-8 border-2 border-gdg-blue border-t-transparent rounded-full" />
         </div>
       ) : (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-3">
           {GAMES.map((game) => (
             <GameCard
               key={game.id}
@@ -102,14 +93,12 @@ export default function Hub() {
 
       {/* Leaderboard Section */}
       <div className="mt-8 rounded-2xl bg-dark-card/50 border border-slate-700/50 overflow-hidden">
-        {/* Header */}
         <div className="px-4 pt-4 pb-3">
           <h2 className="text-lg font-bold text-white">Leaderboard</h2>
         </div>
 
         {/* Game tabs */}
         <div className="relative">
-          {/* Fade edges */}
           <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-4 bg-gradient-to-r from-dark-card/50 to-transparent z-10" />
           <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-dark-card/50 to-transparent z-10" />
 
@@ -119,9 +108,7 @@ export default function Hub() {
               return (
                 <button
                   key={game.apiName}
-                  onClick={() =>
-                    setSelectedLeaderboard(isActive ? null : game.apiName)
-                  }
+                  onClick={() => setSelectedLeaderboard(isActive ? null : game.apiName)}
                   className={`relative px-4 py-2 rounded-full text-xs font-medium whitespace-nowrap
                               transition-all duration-200
                     ${isActive
@@ -136,7 +123,6 @@ export default function Hub() {
           </div>
         </div>
 
-        {/* Leaderboard content */}
         <AnimatePresence mode="wait">
           {selectedLeaderboard ? (
             <motion.div
@@ -160,6 +146,18 @@ export default function Hub() {
           )}
         </AnimatePresence>
       </div>
+
+      {/* DEV button */}
+      <button
+        onClick={async () => {
+          await api.resetLives(user.id)
+          const updated = await api.getLives(user.id)
+          setLives(updated)
+        }}
+        className="mt-6 w-full py-1.5 text-xs text-slate-700 hover:text-slate-500 transition-colors"
+      >
+        Hakları Sıfırla (DEV)
+      </button>
     </div>
   )
 }

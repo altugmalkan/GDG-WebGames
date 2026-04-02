@@ -14,8 +14,12 @@ body {
   margin: 0;
   background-color: var(--color-dark-bg);
   color: #f1f5f9;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+h1, h2 {
+  letter-spacing: -0.02em;
 }
 
 #root {

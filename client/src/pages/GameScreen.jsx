@@ -72,15 +72,21 @@ export default function GameScreen() {
     const resetTime = nextReset ? new Date(nextReset).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' }) : '?'
     return (
       <div className="flex flex-col items-center justify-center min-h-dvh gap-4">
-        <p className="text-4xl">😢</p>
+        <div className="w-16 h-16 rounded-full bg-gdg-red/15 flex items-center justify-center">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+               strokeLinecap="round" className="w-8 h-8 text-gdg-red">
+            <circle cx="12" cy="12" r="9" />
+            <path d="M15 9l-6 6M9 9l6 6" />
+          </svg>
+        </div>
         <h2 className="text-xl font-bold text-white">Hakkınız Kalmadı</h2>
         <p className="text-slate-400 text-center">
           Sonraki hak yenileme: <span className="text-gdg-yellow font-semibold">{resetTime}</span>
         </p>
         <button
           onClick={() => navigate('/hub')}
-          className="mt-4 px-6 py-3 rounded-xl bg-dark-card border border-slate-600 text-white
-                     hover:bg-dark-surface transition-colors"
+          className="mt-4 px-6 py-3 rounded-xl bg-white/[0.05] border border-white/10 text-white
+                     hover:bg-white/[0.08] transition-colors"
         >
           Hub'a Dön
         </button>
@@ -118,7 +124,14 @@ export default function GameScreen() {
           <GameComponent onGameEnd={handleGameEnd} />
         ) : (
           <div className="flex flex-col items-center justify-center py-20">
-            <p className="text-6xl mb-4">🎮</p>
+            <div className="w-16 h-16 rounded-2xl bg-dark-surface flex items-center justify-center mb-4">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"
+                   strokeLinecap="round" className="w-8 h-8 text-slate-500">
+                <rect x="2" y="6" width="20" height="14" rx="3" />
+                <path d="M12 10v4M10 12h4" />
+                <path d="M7 12h.01M17 12h.01" />
+              </svg>
+            </div>
             <p className="text-slate-400 text-lg">Oyun yakında eklenecek</p>
             <button
               onClick={() => handleGameEnd(Math.floor(Math.random() * 500))}
